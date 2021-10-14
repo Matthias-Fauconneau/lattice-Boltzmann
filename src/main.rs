@@ -2,7 +2,7 @@
 use std::array::from_fn as map;
 fn sq(x: f64) -> f64 { x*x }
 
-fn main() {
+fn main() -> Result<(), impl std::fmt::Debug> {
 	let cₛ = f64::sqrt(1./3.);
 	let c = [-1., 0., 1.];
 	let w = [1./6., 4./6., 1./6.];
@@ -30,5 +30,7 @@ fn main() {
 			f + 2.*β*(w[i]*(density[x] + c[i]/cₛ*momentum[x] + (sq(c[i])-sq(cₛ))/(2.*f64::powi(cₛ,4))*sq(momentum[x])/density[x]) - f)
 		}));
 	}
-	assert_eq!(density(populations), [0.; N]);
+	let density = density(populations);
+	let values: [_; N] = map(|x| (x as f64, [[density[x]].into()].into()));
+	ui::app::run(ui::plot::Plot::new(&[&["ρ"]], &values))
 }

@@ -3,4 +3,11 @@ name = "lattice-boltzmann"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+default=['ui']
+
 [dependencies]
+ui={optional=true, git='https://github.com/Matthias-Fauconneau/ui', features= ['plot']}
+
+[patch.'https://github.com/Matthias-Fauconneau/ui']
+ui={path='../ui'}
